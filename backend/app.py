@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 import time
 
 app = Flask(__name__)
-CORS(app)  
+CORS(app, origins=["https://medical-waste-classify-p8s8.vercel.app"])  
 
 # Configuration
 UPLOAD_FOLDER = 'uploads'
@@ -230,8 +230,8 @@ def get_categories():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
-
+    port = int(os.environ.get('PORT', 5000))  # Render provides PORT
+    app.run(debug=False, host='0.0.0.0', port=port)
 # from flask import Flask, request, jsonify
 # from flask_cors import CORS
 # import os
