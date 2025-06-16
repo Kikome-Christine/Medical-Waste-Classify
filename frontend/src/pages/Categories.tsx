@@ -18,7 +18,7 @@ const Categories: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/categories');
+        const response = await axios.get(' https://medical-waste-classify-1.onrender.com/api/categories');
         
         // Add icons to categories
         const categoriesWithIcons = response.data.categories.map((category: Category) => {
@@ -161,7 +161,7 @@ const Categories: React.FC = () => {
 };
 
 const DisposalGuidelines: React.FC<{ category: string }> = ({ category }) => {
-  // Mock disposal guidelines based on category
+  
   switch (category) {
     case 'Infectious Waste':
       return (

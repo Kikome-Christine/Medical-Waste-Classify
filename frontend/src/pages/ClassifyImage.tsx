@@ -72,7 +72,7 @@ const ClassifyImage: React.FC = () => {
       const formData = new FormData();
       formData.append('image', image);
 
-      const response = await axios.post('http://localhost:5000/api/classify', formData, {
+      const response = await axios.post(' https://medical-waste-classify-1.onrender.com/api/classify', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Code, FileJson, Image, AlertCircle } from 'lucide-react';
+import { Code, FileJson, Image } from 'lucide-react';
 
 const ApiDocs: React.FC = () => {
   return (
@@ -22,7 +22,7 @@ const ApiDocs: React.FC = () => {
           </div>
           <div className="p-6">
             <code className="bg-gray-100 px-4 py-2 rounded-md text-gray-800 block">
-              http://localhost:5000
+               https://medical-waste-classify-1.onrender.com
             </code>
           </div>
         </div>
@@ -103,7 +103,7 @@ const ApiDocs: React.FC = () => {
                   <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
                     <code className="text-gray-800">{`import requests
 
-url = 'http://localhost:5000/api/classify'
+url = ' https://medical-waste-classify-1.onrender.com/api/classify'
 files = {'image': open('waste_image.jpg', 'rb')}
 
 response = requests.post(url, files=files)
@@ -150,7 +150,7 @@ print(f"Confidence: {result['confidence']:.2%}")`}</code>
                 <div>
                 <p className="font-medium text-gray-700">Example Usage (JavaScript)</p>
                 <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-                    <code className="text-gray-800">{`fetch('http://localhost:5000/api/history')
+                    <code className="text-gray-800">{`fetch(' https://medical-waste-classify-1.onrender.com/api/history')
             .then(response => response.json())
             .then(data => {
                 console.log('History:', data);
@@ -191,7 +191,7 @@ print(f"Confidence: {result['confidence']:.2%}")`}</code>
                 <div>
                   <p className="font-medium text-gray-700">Example Usage (JavaScript)</p>
                   <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto">
-                    <code className="text-gray-800">{`fetch('http://localhost:5000/api/categories')
+                    <code className="text-gray-800">{`fetch(' https://medical-waste-classify-1.onrender.com/api/categories')
   .then(response => response.json())
   .then(data => {
     console.log('Categories:', data.categories);
