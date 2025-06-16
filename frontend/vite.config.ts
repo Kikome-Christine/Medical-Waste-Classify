@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://medical-waste-classify-1.onrender.com/',
+        target: 'https://medical-waste-classify-1.onrender.com',
         changeOrigin: true,
       },
     },

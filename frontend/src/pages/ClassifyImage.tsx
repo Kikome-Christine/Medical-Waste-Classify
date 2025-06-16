@@ -2,17 +2,18 @@ import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { Upload, AlertCircle, CheckCircle } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 interface ClassificationResult {
+  id: string;
+  user_id: string;
+  filename: string;          
   top_category: string;
   confidence: number;
-  all_predictions: Array<{
-    category: string;
-    confidence: number;
-  }>;
-  timestamp: number;
-  filename: string;
+  all_predictions: { category: string; confidence: number }[];
+  created_at: string; 
 }
+
 
 const ClassifyImage: React.FC = () => {
   const [image, setImage] = useState<File | null>(null);
@@ -68,19 +69,45 @@ const ClassifyImage: React.FC = () => {
         },
       });
 
+      const resultData = response.data;
+    setResult(resultData);
+
       // Save to localStorage for history
       const historyResults = JSON.parse(localStorage.getItem('classificationHistory') || '[]');
       const updatedHistory = [response.data, ...historyResults].slice(0, 20); // Keep only the latest 20 results
       localStorage.setItem('classificationHistory', JSON.stringify(updatedHistory));
 
-      setResult(response.data);
-    } catch (err) {
-      console.error('Error classifying image:', err);
-      setError('Failed to classify image. Please try again.');
-    } finally {
-      setIsLoading(false);
+      const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError) throw userError;
+
+    const { error: insertError } = await supabase
+  .from('classification_history')
+  .insert({
+    id: crypto.randomUUID(),
+    user_id: user?.id,
+
+    filename: image.name,
+    top_category: resultData.top_category,
+    confidence: resultData.confidence
+  
+  });
+    if (insertError) {
+      console.error('Failed to save classification to Supabase:', insertError);
     }
-  };
+   
+
+  } catch (err) {
+    console.error('Error classifying image:', err);
+    setError('Failed to classify image. Please try again.');
+  } finally {
+    setIsLoading(false);
+  }
+
+  }   
 
   const resetClassification = () => {
     setImage(null);
@@ -240,3 +267,4 @@ const ClassifyImage: React.FC = () => {
 };
 
 export default ClassifyImage;
+
