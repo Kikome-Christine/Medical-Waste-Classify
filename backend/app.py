@@ -64,7 +64,14 @@ def load_model():
 
 
 # Initialize model
-model = load_model()
+# model = load_model()
+model = None  # global placeholder
+
+def get_model():
+    global model
+    if model is None:
+        model = load_model()
+    return model
 
 # Image preprocessing
 transform = transforms.Compose([
@@ -89,7 +96,7 @@ def preprocess_image(image_path):
         print(f"Error preprocessing image: {e}")
         return None
 
-def classify_image(file_path):
+def classify_image(file_path, model):
     try:
         input_tensor = preprocess_image(file_path)
         if input_tensor is None:
@@ -143,19 +150,26 @@ def classify():
 
     file = request.files['image']
 
+    
+
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
+
+     
+
 
     if file and allowed_file(file.filename):
         try:
             filename = secure_filename(file.filename)
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(file_path)
+            model_instance = get_model()
+      
 
             if model is None:
                 return jsonify({"error": "Model not loaded"}), 500
 
-            result = classify_image(file_path)
+            result = classify_image(file_path, model_instance)
 
             if result is None:
                 return jsonify({"error": "Classification failed"}), 500
