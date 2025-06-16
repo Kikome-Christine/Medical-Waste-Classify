@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "flask": "cd backend && python app.py",
-    "start": "concurrently \"npm run dev\" \"npm run flask\""
+    "start": "vite preview"
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.6",
